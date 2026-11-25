@@ -1,0 +1,14 @@
+{
+  "name": "stocksync-backend",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "scripts": {
+    "generate:csv": "node ../samples/generate-sample.js",
+    "import:csv": "node src/modules/inventory/import-cli.js",
+    "test": "node --test tests/**/*.test.js"
+  }
+}
