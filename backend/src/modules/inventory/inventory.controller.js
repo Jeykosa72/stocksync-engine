@@ -1,6 +1,6 @@
 import { file } from "zod";
 import { AppError } from "../../shared/errors/app-error.js";
-import { adjustStockSchema, getStockParamSchema } from './schemas/inventory.schema.js';
+import { adjustStockSchema, getStockParamsSchema } from './schemas/inventory.schema.js';
 
 export class inventoryController {
     constructor(inventoryService) {
@@ -8,11 +8,11 @@ export class inventoryController {
     };
 
     getBySku = async (request, reply) => {
-        const { sku } = getStockParamSchema.parse(request.params);
+        const { sku } = getStockParamsSchema.parse(request.params);
         const items = await this.inventoryService.getStockBySku(sku);
 
         return reply.status(200).send({
-            status: 'succes',
+            status: 'success',
             data: items,
         });
     }

@@ -1,4 +1,4 @@
-import { createOrderSchema, orderIdParamSchema } from "./schemas/order.schema";
+import { createOrderSchema, orderIdParamSchema } from "./schemas/order.schema.js";
 
 export class OrderController {
     constructor(orderService) {

@@ -29,3 +29,16 @@ Dokumen ini mencatat keputusan arsitektur utama pada **StockSync Engine** besert
 - **Alasan & Trade-off:**
   - Mengganti *in-memory repository* menjadi *PostgreSQL repository* pada Iterasi 3 hanya memerlukan perubahan pada file `*.repository.js` tanpa menyentuh aturan bisnis di `*.service.js`.
   - Validasi skema gagal lebih awal (*fail-fast*) sebelum menyentuh transaksi database.
+
+  Pada skrip sebelumnya, `ADR-002` (pemilihan Fastify) dan `ADR-003` (pemisahan layer + validasi Zod) sudah tercatat. Untuk melengkapi rekaman arsitektur Iterasi 2, tambahkan **`ADR-004`** yang menjelaskan mekanisme *graceful shutdown* dan pemisahan *operational error* yang baru saja kamu implementasikan di `server.js` dan `error-handler.js`.
+
+```markdown
+## ADR-004: Graceful Shutdown dan Klasifikasi Operational vs System Error
+- **Status:** Accepted (Iterasi 2)
+- **Konteks:** Proses Node.js berjalan jangka panjang (*long-running process*) di dalam container Linux. Penghentian proses secara paksa saat restart/deploy dapat memutus request yang sedang diproses, sementara kebocoran *stack trace* internal pada respons HTTP berisiko mengekspos struktur sistem ke klien.
+- **Keputusan:**
+  1. Menangani sinyal sistem operasi `SIGTERM` dan `SIGINT` pada `server.js` dengan batas waktu *drain* maksimal 10 detik (`forceExitTimer.unref()`).
+  2. Membedakan *operational error* (`AppError`, kesalahan input/bisnis) dengan *system error* tidak terduga pada `globalErrorHandler`.
+- **Alasan & Trade-off:**
+  - `app.close()` menghentikan penerimaan koneksi baru namun memberi waktu bagi request yang sedang berjalan untuk selesai sebelum proses keluar dengan kode `0`.
+  - Penggunaan `.unref()` pada timer darurat memastikan timer tersebut tidak menahan *Event Loop* tetap hidup jika server berhasil ditutup lebih cepat dari 10 detik.

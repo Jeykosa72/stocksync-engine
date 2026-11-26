@@ -8,3 +8,7 @@ export const adjustStockSchema = z.object({
     }),
     referenceNote: z.string().trim().max(255).optional(),
 });
+
+export const getStockParamsSchema = z.object({
+    sku: z.string().trim().min(3).max(64),
+});

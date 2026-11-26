@@ -7,9 +7,9 @@ import { inventoryRoutes } from './modules/inventory/inventory.routes.js';
 import { orderRoutes } from './modules/orders/order.routes.js';
 import { optional } from 'zod';
 
-export async function buildApp(oprtions = {}) {
+export async function buildApp(options = {}) {
     const app = Fastify({
-        logger: options.logger ?? null,
+        logger: options.logger ?? true,
         requestIdHeader: 'x-request-id'
     });
 
@@ -29,15 +29,15 @@ export async function buildApp(oprtions = {}) {
     app.setErrorHandler(globalErrorHandler);
 
     // Health check point
-    app.get('health', async () => ({
-        status: `ok`,
+    app.get('/health', async () => ({
+        status: `OK`,
         uptime: process.uptime(),
         timestamp: new Date().toISOString(),
     }));
 
     // Domain routes v1
     await app.register(inventoryRoutes, {prefix: 'api/v1/inventory'});
-    // await app.register(orderRoutes)
+    await app.register(orderRoutes, { prefix: '/api/v1/orders' });
 
     return app
 }

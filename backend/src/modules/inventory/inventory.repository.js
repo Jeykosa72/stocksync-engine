@@ -17,9 +17,9 @@ class InMemoryInventoryRepository {
         return results;
     }
     
-    async findBySkuAndWarehouse(sku, warehouse) {
-        const records = this.stocks.get(`${sku}::${warehouseCode}`);
-        return records ? { ...record } : null;
+    async findBySkuAndWarehouse(sku, warehouseCode) {
+        const record = this.stocks.get(`${sku}::${warehouseCode}`);
+        return record ? { ...record } : null;
     }
 
     async upsertBatch(records) {
@@ -39,7 +39,7 @@ class InMemoryInventoryRepository {
         }
     }
 
-    async deduckStock(sku, warehouseCode, quantity) {
+    async deductStock(sku, warehouseCode, quantity) {
         const key = `${sku}::${warehouseCode}`;
         const existing = this.stocks.get(key);
         if(!existing || existing.availableQty < quantity) {
@@ -52,7 +52,7 @@ class InMemoryInventoryRepository {
             updatedAt: new Date().toISOString(),
         };
 
-        this.stocks.get(key, updated);
+        this.stocks.set(key, updated);
         return updated;
     }
 }

@@ -1,6 +1,6 @@
 import { inventoryRepository } from './inventory.repository.js';
 import { inventoryService } from './inventory.service.js';
-import { inventoryController } from './inventory.controller';
+import { inventoryController } from './inventory.controller.js';
 
 export async function inventoryRoutes(fastify) {
     const service = new inventoryService(inventoryRepository);
