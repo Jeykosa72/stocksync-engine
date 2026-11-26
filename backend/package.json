@@ -1,14 +1,24 @@
 {
   "name": "stocksync-backend",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "type": "module",
   "engines": {
     "node": ">=22.0.0"
   },
   "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
     "generate:csv": "node ../samples/generate-sample.js",
     "import:csv": "node src/modules/inventory/import-cli.js",
     "test": "node --test tests/**/*.test.js"
+  },
+  "dependencies": {
+    "@fastify/cors": "^11.4.3",
+    "@fastify/helmet": "^13.2.0",
+    "@fastify/multipart": "^10.1.9",
+    "dotenv": "^18.0.10",
+    "fastify": "^5.12.8",
+    "zod": "^4.6.7"
   }
 }
