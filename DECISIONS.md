@@ -32,7 +32,6 @@ Dokumen ini mencatat keputusan arsitektur utama pada **StockSync Engine** besert
 
   Pada skrip sebelumnya, `ADR-002` (pemilihan Fastify) dan `ADR-003` (pemisahan layer + validasi Zod) sudah tercatat. Untuk melengkapi rekaman arsitektur Iterasi 2, tambahkan **`ADR-004`** yang menjelaskan mekanisme *graceful shutdown* dan pemisahan *operational error* yang baru saja kamu implementasikan di `server.js` dan `error-handler.js`.
 
-```markdown
 ## ADR-004: Graceful Shutdown dan Klasifikasi Operational vs System Error
 - **Status:** Accepted (Iterasi 2)
 - **Konteks:** Proses Node.js berjalan jangka panjang (*long-running process*) di dalam container Linux. Penghentian proses secara paksa saat restart/deploy dapat memutus request yang sedang diproses, sementara kebocoran *stack trace* internal pada respons HTTP berisiko mengekspos struktur sistem ke klien.
