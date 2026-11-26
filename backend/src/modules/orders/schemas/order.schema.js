@@ -7,7 +7,7 @@ export const createOrderSchema = z.object({
     items: z
     .array(
         z.object({
-            sku: z.string.trim().min(3).max(64),
+            sku: z.string().trim().min(3).max(64),
             quantity: z.number().int().positive(),
         })
     )

@@ -11,7 +11,7 @@ export class inventoryService {
         this.repository = repository;
     }
 
-    async addStockBySku(sku) {
+    async getStockBySku(sku) {
         const records = await this.repository.findBySku(sku);
         if ( records.length === 0 ) {
             throw new AppError({
