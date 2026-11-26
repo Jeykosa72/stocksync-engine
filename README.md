@@ -25,7 +25,7 @@ flowchart LR
     Redis --> Worker[ERP Sync Worker]
     Worker -->|Webhook / HTTP| ERP[Downstream ERP]
 ```
-# Tech Stack
+## Tech Stack
 Runtime: Node.js v22 LTS (ES Modules)
 
 HTTP Framework: Fastify
@@ -39,6 +39,7 @@ Validation & Logging: Zod + Pino (Structured JSON Logging)
 Frontend Ops Dashboard: Vue 3 + Vite + Tailwind CSS
 
 Struktur Proyek
+```text
 stocksync-engine/
 ├── docker/                 # Skrip inisialisasi database dan konfigurasi container
 ├── backend/
@@ -52,8 +53,8 @@ stocksync-engine/
 ├── frontend/               # Dashboard pemantauan operasional berbasis Vue 3
 ├── samples/                # Generator dan dataset uji coba skala besar
 └── docker-compose.yml      # Orkestrasi layanan infrastruktur dan aplikasi
-
-# Progress Iterasi
+```
+## Progress Iterasi
 [x] Iterasi 1: Setup monorepo, Docker Compose (PostgreSQL & Redis), dan Stream CSV Stock Importer.
 
 [x] Iterasi 2: HTTP API layer (Fastify), validasi Zod, error handling terpusat, dan graceful shutdown.
@@ -88,11 +89,13 @@ curl -X POST http://localhost:3000/api/v1/inventory/import-stream \
   -F "file=@../samples/bulk-stock-50k.csv;type=text/csv"
 ```
 
-# Ringkasan Endpoint API (v1)
-Method	Endpoint	Deskripsi
-GET	/health	Pemeriksaan status runtime dan uptime proses server.
-GET	/api/v1/inventory/:sku	Mengambil informasi ketersediaan stok per gudang untuk SKU tertentu.
-POST	/api/v1/inventory/adjust	Penyesuaian stok tunggal secara manual (penambahan atau pengurangan).
-POST	/api/v1/inventory/import-stream	Unggah dan pemrosesan mutasi stok massal berbasis file CSV (multipart/form-data).
-POST	/api/v1/orders	Pembuatan pesanan baru dan alokasi pemotongan stok gudang.
-GET	/api/v1/orders/:id	Mengambil detail dan status alokasi pesanan berdasarkan UUID.
+## Ringkasan Endpoint API (v1)
+| Method | Endpoint | Deskripsi |
+| :--- | :--- | :--- |
+| `GET` | `/health` | Pemeriksaan status runtime dan uptime proses server. |
+| `GET` | `/api/v1/inventory/:sku` | Mengambil informasi ketersediaan stok per gudang untuk SKU tertentu. |
+| `POST` | `/api/v1/inventory/adjust` | Penyesuaian stok tunggal secara manual (penambahan atau pengurangan). |
+| `POST` | `/api/v1/inventory/import-stream` | Unggah dan pemrosesan mutasi stok massal berbasis file CSV (`multipart/form-data`). |
+| `POST` | `/api/v1/orders` | Pembuatan pesanan baru dan alokasi pemotongan stok gudang. |
+| `GET` | `/api/v1/orders/:id` | Mengambil detail dan status alokasi pesanan berdasarkan UUID. |
+
